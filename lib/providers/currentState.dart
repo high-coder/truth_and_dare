@@ -8,6 +8,43 @@ class CurrentState extends ChangeNotifier{
 
 
 
+  String addPlayerData({required String name}) {
+    String retVal = "error";
+
+    try{
+      players.add(PlayersModel(name: name, completed: 0, forfeited: 0, score: 0, playerId: players.length));
+      retVal = "success";
+    }catch(e) {
+      retVal = "error";
+    }
+    notifyListeners();
+    return retVal;
+  }
+
+  String removePlayerData({required int playerId}) {
+    String retVal = "error";
+
+    print("This is the player id that is going to be removed $playerId");
+    try{
+      // find the index to be removed
+      late int indexToRemove;
+      for (var element in players) {
+        if(element.playerId == playerId) {
+          indexToRemove = players.indexOf(element);
+        }
+      }
+      players.removeAt(indexToRemove);
+
+      retVal = "success";
+    }catch(e) {
+      retVal = "error";
+    }
+
+    notifyListeners();
+    return retVal;
+  }
+
+
   // increase the score by one only when successful
   increaseTheScore(int playerId) {
     for (var element in players) {
